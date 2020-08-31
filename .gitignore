@@ -1,0 +1,10 @@
+
+build/
+
+.gradle/
+
+out/
+
+.idea/sonarlint/
+
+.idea/dataSources/
