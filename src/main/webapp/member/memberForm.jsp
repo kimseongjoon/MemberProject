@@ -1,5 +1,5 @@
 <%@ page import="org.member.dao.MemberDAOimpl" %>
-<%@ page import="org.member.dto.MemberDTO" %><%--
+<%@ page import="org.member.dto.BoardDTO" %><%--
   Created by IntelliJ IDEA.
   User: admin
   Date: 2020-08-27(027)
@@ -61,11 +61,10 @@
         </div>
         <div class="form-group">
             <label for="userid">(*) 아이디:</label>
-            <input type="text" class="form-control" id="userid" placeholder="아이디를 입력하세요" name="userid" required>
-<%--            <div class="form-inline">--%>
-<%--                <input type="text" class="form-control mr-sm-2" id="userid" placeholder="아이디를 입력하세요" name="userid" style="width: 90%;" required>--%>
-<%--                <input type="button" value="중복 체크" onclick="">--%>
-<%--            </div>--%>
+            <div class="form-inline">
+                <input type="text" class="form-control mr-sm-2" id="userid" placeholder="아이디를 입력하세요" name="userid" style="width: 90%;" required readonly>
+                <input type="button" value="중복 체크" id="idCheckBtn">
+            </div>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">Please fill out this field.</div>
         </div>
@@ -89,13 +88,13 @@
         </div>
         <div class="form-group">
             <label for="email">이메일:</label>
-            <input type="email" pattern="" class="form-control" id="email" placeholder="이메일을 입력하세요" name="email">
+            <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요" name="email">
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">Please fill out this field.</div>
         </div>
         <div class="form-group">
             <label for="phone">전화번호:</label>
-            <input type="tel" pattern="^[0-9]{3}-[0-9]{4}-[0-9]{4}$" class="form-control" id="phone" placeholder="전화번호를 입력하세요" name="phone" required>
+            <input type="tel" class="form-control" id="phone" placeholder="전화번호를 입력하세요" name="phone" required>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">Please fill out this field.</div>
         </div>

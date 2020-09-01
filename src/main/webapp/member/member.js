@@ -82,4 +82,90 @@ $(function () { // $(document).ready(function() { 과 같음
 
         $("#frm").submit();
     })
-});*/
+    // 아이디 입력창
+    $("#idCheckBtn").click(function () {
+        window.open("idCheck.jsp", "", "width = 800 height = 500");
+
+    })
+
+    //아이디 중복확인
+    $("#idBtn").on("click", function () {
+        $.ajax({
+            type:"post",
+            url:"idCheckPro.jsp",
+            data:{"userid" : $("#userid").val()},
+            success:function (d) {
+                // alert(d.trim());
+
+                if (d.trim() == "yes") {
+                    alert("사용 가능한 아이디입니다.");
+                    // } else if (d == "no") {
+                    //     alert("사용 불가능한 아이디입니다.");
+                    // }
+                    var id = $("#userid").val()
+
+                    $(opener.document).find("#userid").val(id);
+                    self.close();
+                } else {
+                    alert("사용 불가능한 아이디입니다.");
+                }
+            },error:function (e) {
+                alert("error:" + e);
+            }
+        })
+    })
+});
+
+function del(userid, mode) {
+
+    if (mode == '관리자') {
+        alert("관리자는 삭제할 수 없습니다.");
+        return
+    }
+    /*$.ajax({
+        method: "get",
+        url: "memberDelete.jsp",
+        data: {"userid":userid}
+    }).done(function (result) {
+
+        d = JSON.parse(result);
+        alert(d)
+        var htmlStr = ""
+        $.each(d.jarr, function (key, val) {
+            adminStr = (val.admin == 0) ? "일반회원" : "관리자";
+            htmlStr += "<tr>";
+            htmlStr += "<td>" + val.name + "</td>";
+            htmlStr += "<td>" + val.userid + "</td>";
+            htmlStr += "<td>" + val.phone + "</td>";
+            htmlStr += "<td>" + val.email + "</td>";
+            htmlStr += "<td>" + adminStr + "</td>";
+            htmlStr += "<td>삭제</td>";
+            htmlStr += "</tr>";
+        });
+
+        $("#tbody").html(htmlStr);
+        $("#cnt").text(d.countObj.count);
+    });*/
+
+    $.getJSON("memberDelete.jsp", {"userid":userid}, function (data) {
+        var htmlStr = ""
+        $.each(data.jarr, function (key, val) {
+            htmlStr += "<tr>";
+            htmlStr += "<td>" + val.name + "</td>";
+            htmlStr += "<td>" + val.userid + "</td>";
+            htmlStr += "<td>" + val.phone + "</td>";
+            htmlStr += "<td>" + val.email + "</td>";
+            htmlStr += "<td>" + val.adminStr + "</td>";
+            htmlStr += "<td><a href=javascript:del('" + val.userid + "','" + val.adminStr + "')>삭제</a></td>";
+            /*htmlStr += "<td><a href=\"javascript:del('";
+            htmlStr += val.userid;
+            htmlStr += "', '";
+            htmlStr += adminStr;
+            htmlStr += "')\">삭제</a></td>";*/
+            htmlStr += "</tr>";
+        });
+
+        $("tbody").html(htmlStr);
+        $("#cnt").text(data.countObj.cnt);
+    });
+}

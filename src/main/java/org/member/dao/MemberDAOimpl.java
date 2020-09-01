@@ -23,6 +23,9 @@ public class MemberDAOimpl implements MemberDAO {
         return ds.getConnection();
     }
 
+    private MemberDAOimpl() {
+    }
+
     @Override
     public void memInsert(MemberDTO member) {
         Connection con = null; // 디비 연결하는 객체
@@ -174,7 +177,7 @@ public class MemberDAOimpl implements MemberDAO {
             con = getConnection();
 
             String sql = "DELETE FROM MEMBER WHERE USERID='" + userid + "'";
-            System.out.println("memberDelete -> " + sql);
+            System.out.println("memDelete -> " + sql);
 
             st = con.createStatement();
             st.executeUpdate(sql);
@@ -187,7 +190,35 @@ public class MemberDAOimpl implements MemberDAO {
 
     @Override
     public String idCheck(String userid) {
-        return null;
+        /*int cnt = getCount("USERID", userid);
+
+        if (cnt >= 1) {
+            return "no";
+        } else if (cnt == 0) {
+            return "yes";
+        } else {
+            return "";
+        }*/
+
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
+        String flag = "yes";
+
+        try {
+            con = getConnection();
+            String sql = "SELECT * FROM MEMBER WHERE USERID='" + userid + "'";
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            if (rs.next()) {
+                flag = "no";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(con, null, st, rs);
+        }
+        return flag;
     }
 
     @Override

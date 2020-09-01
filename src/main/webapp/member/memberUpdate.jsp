@@ -10,7 +10,7 @@
 <%
     request.setCharacterEncoding("utf-8");
 %>
-<jsp:useBean id="md" class="org.member.dto.MemberDTO"/>
+<jsp:useBean id="md" class="org.member.dto.BoardDTO"/>
 <jsp:setProperty name="md" property="*"/>
 <%
 

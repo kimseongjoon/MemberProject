@@ -36,7 +36,6 @@
                     } else if (d.trim() == 0) {
                         $(location).attr("href", "memberView.jsp");
                     } else if (d.trim() == 1) {
-                        alert("관리자 로그인");
                         $(location).attr("href", "memberList.jsp");
                     }
                 },

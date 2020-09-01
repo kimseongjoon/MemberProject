@@ -23,6 +23,7 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.2.Final'
     compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.3.1'
     compile group: 'com.querydsl', name: 'querydsl-apt', version: '4.3.1'
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
     annotationProcessor(
             "com.querydsl:querydsl-apt:4.3.1:jpa",

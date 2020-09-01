@@ -1,6 +1,6 @@
 <%@ page import="org.member.dao.MemberDAO" %>
 <%@ page import="org.member.dao.MemberDAOimpl" %>
-<%@ page import="org.member.dto.MemberDTO" %><%--
+<%@ page import="org.member.dto.BoardDTO" %><%--
   Created by IntelliJ IDEA.
   User: admin
   Date: 2020-08-31(031)
@@ -14,7 +14,7 @@
     <%
         String userid = (String) session.getAttribute("userid");
         MemberDAO dao = MemberDAOimpl.getInstance();
-        MemberDTO member = dao.findById(userid);
+        BoardDTO member = dao.findById(userid);
     %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
