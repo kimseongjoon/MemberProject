@@ -1,6 +1,7 @@
 <%@ page import="org.board.dto.BoardDTO" %>
 <%@ page import="org.board.dao.BoardDAO" %>
 <%@ page import="java.util.Calendar" %>
+<%@ page import="org.dao.CommonDAO" %>
 <%--
   Created by IntelliJ IDEA.
   User: admin
@@ -19,7 +20,9 @@
     String ip = request.getRemoteAddr(); // ip 주소
 
     bd.setIp(ip);
-    dao.boardInsert(bd); // 5개 컬럼 셋팅
-//    response.sendRedirect("list.jsp");
-    out.print(Calendar.getInstance().getTime().toString());
+    dao.boardInsert(bd); // 6개 컬럼 셋팅
+    CommonDAO<BoardDTO> commonDAO = new CommonDAO<BoardDTO>(BoardDTO.class);
+    commonDAO.insert(bd);
+    response.sendRedirect("list.jsp");
+//    out.print(Calendar.getInstance().getTime().toString());
 %>

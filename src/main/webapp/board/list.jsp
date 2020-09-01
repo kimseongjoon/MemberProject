@@ -21,6 +21,10 @@
 %>
 </head>
 <body>
+<div align="right" style="margin-right: 20px">
+    <a href="writeForm.jsp">글쓰기</a>
+</div>
+<h2>게시글 목록</h2>
 <div class="container">
     <table class="table table-hover">
         <thead class="thead-dark">
@@ -39,7 +43,7 @@
         %>
         <tr>
             <td align="right"><%=arr.get(i).getNum()%></td>
-            <td><%=arr.get(i).getSubject()%></td>
+            <td><a href="boardView.jsp?num=<%=arr.get(i).getNum()%>"><%=arr.get(i).getSubject()%></a></td>
             <td><%=arr.get(i).getWriter()%></td>
             <td><%=arr.get(i).getReg_date()%></td>
             <td align="right"><%=arr.get(i).getReadcount()%></td>
