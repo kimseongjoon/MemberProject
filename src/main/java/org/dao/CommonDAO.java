@@ -1,27 +1,22 @@
-package org.member.dao;
+package org.dao;
 
 import org.hibernate.Session;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-
-import javax.persistence.Query;
+import org.util.HibernateTestUtil;
 import java.util.List;
+public class CommonDAO<T> {
 
-public class commonDAO {
-
-
-    /*private SessionFactory factory;
+    private SessionFactory factory;
     private Class clazz;
     private String boardName;
 
 
-
-    public commonDAO(Class<?> clazz) {
-        factory = HibernateTestUtil.getSessionFactory(clazz);
+    public CommonDAO(Class<?> clazz) {
+        factory = HibernateTestUtil.getInstance().getSessionFactory(clazz);
         this.clazz = clazz;
-        this.boardName = clazz.getSimpleName();
+        this.boardName = clazz.getSimpleName().replace("DAO", "");
     }
-
-
 
     public List<?> selectList() {
         Session session = factory.getCurrentSession();
@@ -60,5 +55,5 @@ public class commonDAO {
         session.beginTransaction();
         session.save(member);
         session.getTransaction().commit();
-    }*/
+    }
 }

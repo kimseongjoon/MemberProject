@@ -16,12 +16,23 @@
 <jsp:setProperty name="bd" property="*"/>
 <%
     BoardDAO dao = BoardDAO.getInstance();
-    String ip = request.getRemoteAddr(); // ip 주소
 
+    String ip = request.getRemoteAddr(); // ip 주소
     bd.setIp(ip);
-//    dao.boardInsert(bd); // 6개 컬럼 셋팅
-    CommonDAO<BoardDTO> commonDAO = new CommonDAO<BoardDTO>(BoardDTO.class);
-    commonDAO.insert(bd);
-    response.sendRedirect("list.jsp");
+
+    int flag = dao.boardUpdate(bd); // 6개 컬럼 셋팅
+    if (flag == 1) {
+        response.sendRedirect("list.jsp");
+    } else {
+%>
+    <script>
+        alert("비밀번호가 일치하지 않습니다.");
+        history.back(); // history.go(-1)
+    </script>
+<%
+    }
+//    CommonDAO<BoardDTO> commonDAO = new CommonDAO<BoardDTO>(BoardDTO.class);
+//    commonDAO.insert(bd);
+
 //    out.print(Calendar.getInstance().getTime().toString());
 %>

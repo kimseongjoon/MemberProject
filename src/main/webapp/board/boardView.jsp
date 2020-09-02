@@ -13,40 +13,51 @@
 
     BoardDAO dao = BoardDAO.getInstance();
     BoardDTO bd = dao.boardView(num);
+
+    int ref = bd.getRef();
+    int re_step = bd.getRe_step();
+    int re_level = bd.getRe_level();
 %>
 <html>
 <head>
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function del() {
+            if (confirm("정말 삭제할까요?")) {
+                location.href = "deletePro.jsp?num=" + <%=num%>;
+            }
+        }
+    </script>
 </head>
 <body>
 <table border="1" cellspacing="0">
     <tr>
-        <td align="right" colspan="2"><a href="list.jsp">글목록</a></td>
+        <td>글번호</td>
+        <td><%=bd.getNum()%></td>
+        <td>조회수</td>
+        <td><%=bd.getReadcount()%></td>
     </tr>
     <tr>
-        <td>이름</td>
-        <td><input type="text" name="writer" value="<%=bd.getWriter()%>"></td>
+        <td>작성자</td>
+        <td><%=bd.getWriter()%></td>
+        <td>작성일</td>
+        <td><%=bd.getReg_date()%></td>
     </tr>
     <tr>
-        <td>제목</td>
-        <td><input type="text" name="subject" value="<%=bd.getSubject()%>"></td>
+        <td>글제목</td>
+        <td colspan="3"><%=bd.getSubject()%></td>
     </tr>
     <tr>
-        <td>Email</td>
-        <td><input type="text" name="email" value="<%=bd.getEmail()%>"></td>
+        <td>글내용</td>
+        <td colspan="3"><%=bd.getContent()%></td>
     </tr>
     <tr>
-        <td>내용</td>
-        <td><textarea cols="50" rows="50" name="content"><%=bd.getContent()%></textarea></td>
-    </tr>
-    <tr>
-        <td>비밀번호</td>
-        <td><input type="password" name="passwd"></td>
-    </tr>
-    <tr>
-        <td align="center" colspan="2">
-            <input type="submit" value="수정"/>
-            <input type="reset" value="다시작성"/>
+        <td align="center" colspan="4">
+            <input type="button" value="글수정" onclick="location.href='updateForm.jsp?num=<%=num%>'"/>
+            <input type="reset" value="글삭제" onclick="del()"/>
+            <input type="button" value="답글쓰기" onclick="location.href='writeForm.jsp?num=<%=num%>&ref=<%=ref%>&re_step=<%=re_step%>&re_level=<%=re_level%>'"/>
+            <input type="button" value="목록보기" onclick="location.href='list.jsp'"/>
         </td>
     </tr>
 </table>

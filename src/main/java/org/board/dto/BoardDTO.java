@@ -2,8 +2,15 @@ package org.board.dto;
 
 import lombok.Data;
 
+import javax.persistence.*;
+
 @Data
+@Entity
+@Table(name = "BOARD")
 public class BoardDTO {
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="BOARD_SEQ_GEN")
+    @SequenceGenerator(name="BOARD_SEQ_GEN", sequenceName="BOARD_SEQ", allocationSize = 1)
     private int num;
     private String writer;
     private String subject;

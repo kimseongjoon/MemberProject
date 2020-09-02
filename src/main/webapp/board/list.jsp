@@ -15,17 +15,38 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<%
-    BoardDAO dao = BoardDAO.getInstance();
-    ArrayList<BoardDTO> arr = dao.boardList();
-%>
+    <%
+        request.setCharacterEncoding("utf-8");
+
+        String pageNum = request.getParameter("pageNum");
+        if (pageNum == null) {
+            pageNum = "1";
+        }
+
+        String field = "", word = "";
+        if (request.getParameter("word") != null) {
+            word = request.getParameter("word");
+            field = request.getParameter("field");
+        }
+
+        int currentPage = Integer.parseInt(pageNum);
+        int pageSize = 5; // 한 화면에 보여지는 페이지 수
+        int startRow = ((currentPage - 1) * pageSize) + 1;
+        int endRow = currentPage * pageSize;
+
+        BoardDAO dao = BoardDAO.getInstance();
+        ArrayList<BoardDTO> arr = dao.boardList(field, word, startRow, endRow);
+        int count = dao.boardCount(field, word);
+        //             23
+        int number = count - (currentPage - 1) * pageSize; // 1번 페이지 -> count  2번 페이지 - > count - 5
+    %>
 </head>
 <body>
-<div align="right" style="margin-right: 20px">
-    <a href="writeForm.jsp">글쓰기</a>
-</div>
-<h2>게시글 목록</h2>
 <div class="container">
+    <h2>게시글 목록(<%=count%>)</h2>
+    <div align="right" style="margin-right: 20px">
+        <a href="writeForm.jsp">글쓰기</a>
+    </div>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
@@ -34,7 +55,7 @@
             <th>작성자</th>
             <th>작성일</th>
             <th>조회수</th>
-            <th>IP주소</th>
+            <th>작성일</th>
         </tr>
         </thead>
         <tbody>
@@ -42,18 +63,80 @@
             for (int i = 0; i < arr.size(); i++) {
         %>
         <tr>
-            <td align="right"><%=arr.get(i).getNum()%></td>
-            <td><a href="boardView.jsp?num=<%=arr.get(i).getNum()%>"><%=arr.get(i).getSubject()%></a></td>
-            <td><%=arr.get(i).getWriter()%></td>
-            <td><%=arr.get(i).getReg_date()%></td>
-            <td align="right"><%=arr.get(i).getReadcount()%></td>
-            <td><%=arr.get(i).getIp()%></td>
+<%--            <td align="right"><%=arr.get(i).getNum()%></td>--%>
+            <td align="right"><%=number--%></td>
+            <td><a href="boardView.jsp?num=<%=arr.get(i).getNum()%>"><%=arr.get(i).getSubject()%>
+            </a></td>
+            <td><%=arr.get(i).getWriter()%>
+            </td>
+            <td><%=arr.get(i).getReg_date()%>
+            </td>
+            <td align="right"><%=arr.get(i).getReadcount()%>
+            </td>
+            <td><%=arr.get(i).getReg_date()%>
+            </td>
         </tr>
         <%
             }
         %>
         </tbody>
     </table>
+    <form action="list.jsp" name="search" method="get">
+        <td align="center">
+            <select name="field" size="1">
+                <option value="subject">제 목
+                <option value="writer">작성자
+            </select>
+            <input type="text" size="16" name="word">
+            <input type="submit" name="찾기">
+        </td>
+    </form>
+    <div align="center">
+        <%
+/*
+            int currentPage = Integer.parseInt(pageNum); pageNum가 NULL이면 1
+            int pageSize = 5; // 한 화면에 보여지는 컬럼 수
+            int startRow = ((currentPage - 1) * pageSize) + 1;
+            int endRow = currentPage * pageSize;*/
+            if (count > 0) {    // 43 / 8        + (43 % 8==0? +0: +1)
+                int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+                int pageBlock = 3; //
+                int startPage = (int) ((currentPage - 1) / pageBlock) * pageBlock + 1;
+                int endPage = startPage + pageBlock - 1;
+
+                if (endPage > pageCount) {
+                    endPage = pageCount;
+                }
+
+                if (startPage > pageBlock) {
+        %>
+<%--                    <a href="list.jsp?pageNum=<%=startPage - pageBlock%>&field=<%=field%>&word=<%=word%>">[이전]</a>--%>
+                    <a href="list.jsp?pageNum=<%=startPage - 1%>&field=<%=field%>&word=<%=word%>">[이전]</a>
+        <%
+                }
+
+                for (int i = startPage; i <= endPage; i++) {
+                    if (i == currentPage) {
+        %>
+                        [<%=i%>]
+        <%
+                    }
+                    else {
+        %>
+                        <a href="list.jsp?pageNum=<%=i%>&field=<%=field%>&word=<%=word%>"><%=i%></a>
+        <%
+                    }
+                }
+
+                if (endPage < pageCount) {
+        %>
+<%--                    <a href="list.jsp?pageNum=<%=startPage + pageBlock%>&field=<%=field%>&word=<%=word%>">[다음]</a>--%>
+                    <a href="list.jsp?pageNum=<%=endPage + 1%>&field=<%=field%>&word=<%=word%>">[다음]</a>
+        <%
+                }
+            }
+        %>
+    </div>
 </div>
 </body>
 </html>
