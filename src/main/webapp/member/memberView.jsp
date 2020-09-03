@@ -1,6 +1,7 @@
 <%@ page import="org.member.dao.MemberDAO" %>
 <%@ page import="org.member.dao.MemberDAOimpl" %>
-<%@ page import="org.member.dto.BoardDTO" %><%--
+<%@ page import="org.member.dto.MemberDTO" %>
+<%--
   Created by IntelliJ IDEA.
   User: admin
   Date: 2020-08-31(031)
@@ -14,13 +15,14 @@
     <%
         String userid = (String) session.getAttribute("userid");
         MemberDAO dao = MemberDAOimpl.getInstance();
-        BoardDTO member = dao.findById(userid);
+        MemberDTO member = dao.findById(userid);
     %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <%=userid%>님 반갑습니다. / <a href="logout.jsp">로그아웃</a>
 <br><br>
+<a href="../board/list.jsp">게시판으로</a>
 <h3>회원정보변경 / <a href="userDelete.jsp">회원탈퇴</a></h3>
 <form action="memberUpdate.jsp" method="post">
 <input type="hidden" name="userid" id="userid" value="<%=userid%>">

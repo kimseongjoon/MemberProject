@@ -1,9 +1,9 @@
 <%@ page import="org.member.dao.MemberDAO" %>
 <%@ page import="org.member.dao.MemberDAOimpl" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="org.member.dto.BoardDTO" %>
 <%@ page import="org.json.simple.JSONArray" %>
 <%@ page import="org.json.simple.JSONObject" %>
+<%@ page import="org.member.dto.MemberDTO" %>
 <%--
 Created by IntelliJ IDEA.
   User: admin
@@ -18,11 +18,11 @@ Created by IntelliJ IDEA.
     MemberDAO dao = MemberDAOimpl.getInstance();
     dao.memDelete(userid);
 
-    ArrayList<BoardDTO> arr = dao.memList();
+    ArrayList<MemberDTO> arr = dao.memList();
     int count = dao.getCount();
 
     JSONArray jarr = new JSONArray();
-    for (BoardDTO dto : arr) {
+    for (MemberDTO dto : arr) {
         JSONObject obj = new JSONObject();
 
         obj.put("name", dto.getName());

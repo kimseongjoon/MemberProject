@@ -56,4 +56,6 @@ public class CommonDAO<T> {
         session.save(member);
         session.getTransaction().commit();
     }
+
+//    public  void
 }

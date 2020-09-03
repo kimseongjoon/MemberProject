@@ -1,5 +1,5 @@
 <%@ page import="org.member.dao.MemberDAOimpl" %>
-<%@ page import="org.member.dto.BoardDTO" %><%--
+<%@ page import="org.member.dto.MemberDTO" %><%--
   Created by IntelliJ IDEA.
   User: admin
   Date: 2020-08-27(027)

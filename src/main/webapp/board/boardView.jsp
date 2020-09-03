@@ -31,6 +31,7 @@
     </script>
 </head>
 <body>
+<h2>글 내용 보기</h2>
 <table border="1" cellspacing="0">
     <tr>
         <td>글번호</td>
@@ -61,5 +62,57 @@
         </td>
     </tr>
 </table>
+
+<br><br><br><br>
+<div align="center">
+    <textarea rows="5" cols="5" id="msg"></textarea>
+    <input type="button" value="댓글쓰기" id="commentBtn">
+</div>
+<div id="area">
+
+</div>
+<script>
+    var init = function () {
+        $.getJSON("commentList.jsp",
+            {"bnum":$("#num").val()},
+            function (result) {
+                alert("csc")
+                var htmlStr = "<table>"
+                $.each(result.jarr, function (key, val) {
+                    htmlStr += "<tr>";
+                    htmlStr += "<td>" + val.msg + "</td>";
+                    htmlStr += "<td>" + val.userid + "</td>";
+                    htmlStr += "<td>" + val.regdate + "</td>";
+                    htmlStr += "</tr>";
+                });
+                htmlStr += "</table>";
+
+                $("#area").html(htmlStr);
+            }
+        );
+    };
+
+    $("#commentBtn").on("click", function () {
+        $.ajax({
+            type : "get",
+            url : "commentInsert.jsp",
+            data : {"comment" : $("#msg").val(), "bnum" : <%=num%>},
+            success :function (resp) {
+                if (resp.trim() == 1) {
+                    alert("로그인하세요");
+                    location.href = "../member/loginForm.jsp";
+                } else {
+                    init();
+                    alert("님 반갑습니다.")
+                }
+            },
+            error :function (e) {
+                alert("error:" + e);
+            }
+        })
+    });
+
+    init()
+</script>
 </body>
 </html>

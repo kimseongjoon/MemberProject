@@ -1,7 +1,7 @@
 <%@ page import="org.member.dao.MemberDAO" %>
 <%@ page import="org.member.dao.MemberDAOimpl" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="org.member.dto.BoardDTO" %><%--
+<%@ page import="org.member.dto.MemberDTO" %><%--
   Created by IntelliJ IDEA.
   User: admin
   Date: 2020-08-31(031)
@@ -17,7 +17,7 @@
     <%
         String userid = (String) session.getAttribute("userid");
         MemberDAO dao = MemberDAOimpl.getInstance();
-        ArrayList<BoardDTO> arr = dao.memList();
+        ArrayList<MemberDTO> arr = dao.memList();
         int count = dao.getCount();
     %>
 </head>
@@ -40,7 +40,7 @@
     </thead>
     <tbody id="tbody">
     <%
-        for (BoardDTO dto : arr) {
+        for (MemberDTO dto : arr) {
             /*int admin = dto.getAdmin();
             String adminStr = "";
             if (admin == 0) {

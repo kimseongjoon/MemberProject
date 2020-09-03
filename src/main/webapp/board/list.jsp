@@ -39,13 +39,23 @@
         int count = dao.boardCount(field, word);
         //             23
         int number = count - (currentPage - 1) * pageSize; // 1번 페이지 -> count  2번 페이지 - > count - 5
+        String userid = (String) session.getAttribute("userid");
     %>
 </head>
 <body>
 <div class="container">
     <h2>게시글 목록(<%=count%>)</h2>
     <div align="right" style="margin-right: 20px">
+        <%
+            if (userid != null) {
+        %>
+        <a href="../member/memberView.jsp"><%=userid%></a>님 반갑습니다. /
+<%--        <a href="../member/logout.jsp">로그아웃</a>--%>
+        <a href="/Gradle___org_example___Member_Project_1_0_SNAPSHOT_war__exploded_/member/logout.jsp">로그아웃</a>
         <a href="writeForm.jsp">글쓰기</a>
+        <%
+            }
+        %>
     </div>
     <table class="table table-hover">
         <thead class="thead-dark">
