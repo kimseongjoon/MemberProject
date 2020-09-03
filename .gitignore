@@ -12,3 +12,5 @@ out/
 .idea/uiDesigner.xml
 
 .idea/vcs.xml
+
+.idea/compiler.xml
