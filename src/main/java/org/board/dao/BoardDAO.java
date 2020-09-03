@@ -1,6 +1,7 @@
 package org.board.dao;
 
 import org.board.dto.BoardDTO;
+import org.board.dto.CommentDTO;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -323,6 +324,44 @@ public class BoardDAO {
         return bd;
     }
 
+    public void commentInsert(String comment, String bnum) {
+        Connection con = null; // 디비 연결하는 객체
+        PreparedStatement ps = null;
+        try {
+            con = getConnection();
+
+            String sql = "INSERT INTO COMMENTBOARD (CNUM, MSG, REGDATE, BNUM ) VALUES(COMMENTBOARD_SEQ.NEXTVAL, ?, sysdate, ?)";
+            ps = con.prepareStatement(sql); // 쿼리 실행하는 객체(문자열을 처리할때 statment객체 보다 조금더 편리)
+            ps.setString(1, comment);
+            ps.setString(2, bnum);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(con, ps, null, null);
+        }
+    }
+
+    public void commentInsert(CommentDTO commentDTO) {
+        Connection con = null; // 디비 연결하는 객체
+        PreparedStatement ps = null;
+
+        try {
+            con = getConnection();
+
+            String sql = "INSERT INTO COMMENTBOARD VALUES(COMMENTBOARD_SEQ.NEXTVAL, ?, ?, sysdate, ?, sysdate)";
+            ps = con.prepareStatement(sql); // 쿼리 실행하는 객체(문자열을 처리할때 statment객체 보다 조금더 편리)
+            ps.setString(1, commentDTO.getUserId());
+            ps.setString(2, commentDTO.getMsg());
+            ps.setString(3, commentDTO.getBNum());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(con, ps, null, null);
+        }
+    }
+
     private void closeConnection(Connection con, Statement ps, Statement st, ResultSet rs) {
         try {
             if (rs != null) rs.close();
@@ -332,5 +371,42 @@ public class BoardDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public ArrayList<CommentDTO> commentList(String num) {
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
+        ArrayList<CommentDTO> arr = new ArrayList<>();
+        String sql = "";
+
+        try {
+            con = getConnection();
+            sql = "SELECT * FROM COMMENTBOARD WHERE BNUM=" + num;
+
+            System.out.println("commentList -> " + sql);
+
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                CommentDTO cd = new CommentDTO();
+
+                cd.setCNum(rs.getInt("CNUM"));
+                cd.setUserId(rs.getString("USERID"));
+                cd.setMsg(rs.getString("MSG"));
+                cd.setRegdate(new Timestamp(rs.getDate("REGDATE").getTime()).toLocalDateTime());
+                cd.setBNum(num);
+                cd.setUpdateDate(new Timestamp(rs.getDate("UPDATEDATE").getTime()).toLocalDateTime());
+
+                arr.add(cd);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(con, null, st, rs);
+        }
+
+        return arr;
     }
 }
