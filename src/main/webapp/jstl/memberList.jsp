@@ -11,8 +11,6 @@
     select * from member
 </sql:query>
 
-
-
 <table border="1">
     <tr>
         <c:forEach items="${resultSet.columnNames}" var="columnName">

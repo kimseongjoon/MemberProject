@@ -5,7 +5,7 @@
 </head>
 <body>
 <form action="jstlResult.jsp">
-    ID : s<input type="text" name="id"><br>
+    ID : <input type="text" name="id"><br>
     Color :
     <select name="color">
         <option value="yellow">노랑</option>
